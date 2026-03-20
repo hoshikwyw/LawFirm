@@ -32,6 +32,37 @@
   box-shadow: 0 1px 0 0 rgba(26, 26, 26, 0.04), 0 8px 24px -4px rgba(26, 26, 26, 0.04);
 }
 
+/* iOS-style floating glass navbar */
+@utility nav-glass {
+  background: rgba(252, 252, 254, 0.78);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.04),
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 8px 32px rgba(0, 0, 0, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.9);
+}
+
+@utility nav-glass--scrolled {
+  background: rgba(252, 252, 254, 0.88);
+  box-shadow:
+    0 0 0 0.5px rgba(0, 0, 0, 0.06),
+    0 4px 16px rgba(0, 0, 0, 0.06),
+    0 16px 48px rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.95);
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@utility nav-menu-open {
+  animation: slideDown 0.22s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
 /* Premium card shadow */
 @utility shadow-premium {
   box-shadow: var(--shadow-premium);
