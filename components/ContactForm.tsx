@@ -1,9 +1,5 @@
 "use client";
 
-const VIBER_NUMBER = process.env.NEXT_PUBLIC_VIBER_NUMBER; // e.g. "15551234567"
-const EMAIL_ADDRESS = process.env.NEXT_PUBLIC_EMAIL_ADDRESS ?? "contact@lawfirm.com";
-const MESSENGER_USERNAME = process.env.NEXT_PUBLIC_MESSENGER_USERNAME; // e.g. "yourpage"
-
 function ViberIcon() {
   return (
     <svg className="size-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden>
@@ -28,47 +24,52 @@ function MessengerIcon() {
   );
 }
 
-export function ContactForm() {
-  const viberHref = VIBER_NUMBER
-    ? `viber://chat?number=${VIBER_NUMBER}`
-    : "viber://";
+type ContactFormProps = {
+  viberNumber?: string;
+  messengerUsername?: string;
+  email?: string;
+};
 
-  const messengerHref = MESSENGER_USERNAME
-    ? `https://m.me/${MESSENGER_USERNAME}`
-    : "https://www.messenger.com/";
+export function ContactForm({ viberNumber, messengerUsername, email }: ContactFormProps) {
+  const resolvedViber    = viberNumber      ?? process.env.NEXT_PUBLIC_VIBER_NUMBER;
+  const resolvedEmail    = email            ?? process.env.NEXT_PUBLIC_EMAIL_ADDRESS ?? "contact@lawfirm.com";
+  const resolvedMessenger = messengerUsername ?? process.env.NEXT_PUBLIC_MESSENGER_USERNAME;
+
+  const viberHref    = resolvedViber     ? `viber://chat?number=${resolvedViber}` : "viber://";
+  const messengerHref = resolvedMessenger ? `https://m.me/${resolvedMessenger}`  : "https://www.messenger.com/";
 
   return (
     <div className="flex flex-col gap-4">
       {/* Viber */}
       <a
         href={viberHref}
-        className="flex items-center gap-4 rounded-xl border border-deep-charcoal/[0.08] bg-white px-6 py-4 shadow-premium transition-all hover:shadow-premium-lg hover:border-[#7360F2]/30 group"
+        className="group flex items-center gap-4 rounded-xl border border-deep-charcoal/[0.08] bg-white px-6 py-4 shadow-premium transition-all hover:border-[#7360F2]/30 hover:shadow-premium-lg"
       >
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#7360F2]/10 text-[#7360F2] group-hover:bg-[#7360F2] group-hover:text-white transition-colors">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#7360F2]/10 text-[#7360F2] transition-colors group-hover:bg-[#7360F2] group-hover:text-white">
           <ViberIcon />
         </span>
         <div>
           <p className="font-sans text-sm font-semibold text-deep-charcoal">Send message in Viber</p>
           <p className="font-sans text-xs text-deep-charcoal/50">Chat with us directly on Viber</p>
         </div>
-        <svg className="ml-auto size-4 text-deep-charcoal/30 group-hover:text-deep-charcoal/60 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <svg className="ml-auto size-4 text-deep-charcoal/30 transition-colors group-hover:text-deep-charcoal/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </a>
 
       {/* Email */}
       <a
-        href={`mailto:${EMAIL_ADDRESS}`}
-        className="flex items-center gap-4 rounded-xl border border-deep-charcoal/[0.08] bg-white px-6 py-4 shadow-premium transition-all hover:shadow-premium-lg hover:border-muted-gold/30 group"
+        href={`mailto:${resolvedEmail}`}
+        className="group flex items-center gap-4 rounded-xl border border-deep-charcoal/[0.08] bg-white px-6 py-4 shadow-premium transition-all hover:border-muted-gold/30 hover:shadow-premium-lg"
       >
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted-gold/10 text-muted-gold group-hover:bg-muted-gold group-hover:text-white transition-colors">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-muted-gold/10 text-muted-gold transition-colors group-hover:bg-muted-gold group-hover:text-white">
           <EmailIcon />
         </span>
         <div>
           <p className="font-sans text-sm font-semibold text-deep-charcoal">Send message in Email</p>
-          <p className="font-sans text-xs text-deep-charcoal/50">{EMAIL_ADDRESS}</p>
+          <p className="font-sans text-xs text-deep-charcoal/50">{resolvedEmail}</p>
         </div>
-        <svg className="ml-auto size-4 text-deep-charcoal/30 group-hover:text-deep-charcoal/60 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <svg className="ml-auto size-4 text-deep-charcoal/30 transition-colors group-hover:text-deep-charcoal/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </a>
@@ -78,16 +79,16 @@ export function ContactForm() {
         href={messengerHref}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-4 rounded-xl border border-deep-charcoal/[0.08] bg-white px-6 py-4 shadow-premium transition-all hover:shadow-premium-lg hover:border-[#0084FF]/30 group"
+        className="group flex items-center gap-4 rounded-xl border border-deep-charcoal/[0.08] bg-white px-6 py-4 shadow-premium transition-all hover:border-[#0084FF]/30 hover:shadow-premium-lg"
       >
-        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#0084FF]/10 text-[#0084FF] group-hover:bg-[#0084FF] group-hover:text-white transition-colors">
+        <span className="flex size-10 shrink-0 items-center justify-center rounded-full bg-[#0084FF]/10 text-[#0084FF] transition-colors group-hover:bg-[#0084FF] group-hover:text-white">
           <MessengerIcon />
         </span>
         <div>
           <p className="font-sans text-sm font-semibold text-deep-charcoal">Send message in Messenger</p>
           <p className="font-sans text-xs text-deep-charcoal/50">Chat with us on Facebook Messenger</p>
         </div>
-        <svg className="ml-auto size-4 text-deep-charcoal/30 group-hover:text-deep-charcoal/60 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
+        <svg className="ml-auto size-4 text-deep-charcoal/30 transition-colors group-hover:text-deep-charcoal/60" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden>
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
         </svg>
       </a>

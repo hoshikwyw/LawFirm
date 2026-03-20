@@ -19,3 +19,16 @@ export type Service = {
   icon: string; // emoji or short text icon
   order: number;
 };
+
+export type ContactInfo = {
+  id: number;
+  phone: string;
+  email: string;
+  address: string | null;
+  viber_number: string | null;
+  messenger_username: string | null;
+  linkedin_url: string | null;
+  facebook_url: string | null;
+  twitter_url: string | null;
+  instagram_url: string | null;
+};

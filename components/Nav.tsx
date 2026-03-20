@@ -13,18 +13,22 @@ export function Nav() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const transparent = !scrolled && !menuOpen;
+
   return (
-    <header className="sticky top-0 z-50 flex justify-center bg-soft-bone px-4 pt-3 md:px-6 md:pt-4">
+    <header className="sticky top-0 z-50 flex justify-center px-4 pt-3 md:px-6 md:pt-4">
       <div
-        className={`nav-glass w-full max-w-5xl rounded-2xl transition-all duration-300 ${
-          scrolled ? "nav-glass--scrolled" : ""
+        className={`w-full max-w-5xl rounded-2xl transition-all duration-300 ${
+          transparent ? "" : "nav-glass nav-glass--scrolled"
         }`}
       >
         <nav className="flex items-center justify-between px-5 py-3 md:px-7 md:py-3.5">
           {/* Logo */}
           <Link
             href="#"
-            className="font-serif text-[17px] font-semibold tracking-tight text-deep-charcoal"
+            className={`font-serif text-[17px] font-semibold tracking-tight transition-colors duration-300 ${
+              transparent ? "text-soft-bone" : "text-deep-charcoal"
+            }`}
           >
             Law Firm
           </Link>
@@ -33,13 +37,21 @@ export function Nav() {
           <div className="hidden items-center gap-1 md:flex">
             <Link
               href="#practice-areas"
-              className="rounded-xl px-4 py-2 font-sans text-[13px] font-medium tracking-wide text-deep-charcoal/65 transition-all duration-200 hover:bg-deep-charcoal/[0.055] hover:text-deep-charcoal"
+              className={`rounded-xl px-4 py-2 font-sans text-[13px] font-medium tracking-wide transition-all duration-200 ${
+                transparent
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-deep-charcoal/65 hover:bg-deep-charcoal/[0.055] hover:text-deep-charcoal"
+              }`}
             >
               Practice Areas
             </Link>
             <Link
               href="#contact"
-              className="rounded-xl px-4 py-2 font-sans text-[13px] font-medium tracking-wide text-deep-charcoal/65 transition-all duration-200 hover:bg-deep-charcoal/[0.055] hover:text-deep-charcoal"
+              className={`rounded-xl px-4 py-2 font-sans text-[13px] font-medium tracking-wide transition-all duration-200 ${
+                transparent
+                  ? "text-white/80 hover:bg-white/10 hover:text-white"
+                  : "text-deep-charcoal/65 hover:bg-deep-charcoal/[0.055] hover:text-deep-charcoal"
+              }`}
             >
               Contact
             </Link>
@@ -47,7 +59,11 @@ export function Nav() {
             {/* CTA pill */}
             <a
               href="#contact"
-              className="ml-3 rounded-xl bg-deep-charcoal px-4 py-2 font-sans text-[13px] font-medium tracking-wide text-soft-bone shadow-[0_1px_3px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] transition-all duration-200 hover:bg-deep-charcoal/85 hover:shadow-[0_2px_8px_rgba(0,0,0,0.22)]"
+              className={`ml-3 rounded-xl px-4 py-2 font-sans text-[13px] font-medium tracking-wide transition-all duration-200 ${
+                transparent
+                  ? "border border-white/30 text-white hover:bg-white/10"
+                  : "bg-deep-charcoal text-soft-bone shadow-[0_1px_3px_rgba(0,0,0,0.18),inset_0_1px_0_rgba(255,255,255,0.08)] hover:bg-deep-charcoal/85"
+              }`}
             >
               Book a Consultation
             </a>
@@ -55,7 +71,11 @@ export function Nav() {
 
           {/* Mobile hamburger */}
           <button
-            className="flex size-9 items-center justify-center rounded-xl text-deep-charcoal/70 transition-all duration-200 hover:bg-deep-charcoal/[0.055] hover:text-deep-charcoal focus:outline-none focus-visible:ring-2 focus-visible:ring-muted-gold/50 md:hidden"
+            className={`flex size-9 items-center justify-center rounded-xl transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-muted-gold/50 md:hidden ${
+              transparent
+                ? "text-white/80 hover:bg-white/10 hover:text-white"
+                : "text-deep-charcoal/70 hover:bg-deep-charcoal/[0.055] hover:text-deep-charcoal"
+            }`}
             onClick={() => setMenuOpen(!menuOpen)}
             aria-label={menuOpen ? "Close menu" : "Open menu"}
             aria-expanded={menuOpen}
@@ -79,7 +99,7 @@ export function Nav() {
 
         {/* Mobile dropdown */}
         {menuOpen && (
-          <div className="nav-menu-open border-t border-white/40 px-3 pb-3 pt-2 md:hidden">
+          <div className="nav-menu-open border-t border-white/20 px-3 pb-3 pt-2 md:hidden">
             <div className="flex flex-col gap-1">
               <Link
                 href="#practice-areas"
