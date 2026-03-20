@@ -4,6 +4,7 @@ import { motion, useInView } from "motion/react";
 import { useRef, useEffect, useState } from "react";
 import { ContactForm } from "@/components/ContactForm";
 import { FaqSection } from "@/components/FaqSection";
+import { ServicesSection } from "@/components/ServicesSection";
 
 function CountUp({
   target,
@@ -171,6 +172,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Services — Supabase-powered service cards */}
+      <ServicesSection />
 
       {/* Authority — 3 case results, oversized numbers */}
       <section className="border-t border-deep-charcoal/10 bg-deep-charcoal py-16 text-soft-bone sm:py-20 lg:py-32">

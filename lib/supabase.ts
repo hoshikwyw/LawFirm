@@ -11,3 +11,11 @@ export type Faq = {
   answer: string;
   order: number;
 };
+
+export type Service = {
+  id: number;
+  title: string;
+  description: string;
+  icon: string; // emoji or short text icon
+  order: number;
+};
