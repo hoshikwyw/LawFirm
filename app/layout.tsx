@@ -2,10 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { CustomCursor } from "@/components/CustomCursor";
-import { Nav } from "@/components/Nav";
-import { MessengerChat } from "@/components/MessengerChat";
-import { ChatFloatingButton } from "@/components/ChatFloatingButton";
-import { Footer } from "@/components/Footer";
+import { PublicShell } from "@/components/PublicShell";
 
 const playfair = Playfair_Display({
   variable: "--font-playfair",
@@ -39,11 +36,7 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${inter.variable}`}>
       <body className="font-sans antialiased">
         <CustomCursor />
-        <Nav />
-        {children}
-        <Footer />
-        <MessengerChat />
-        <ChatFloatingButton />
+        <PublicShell>{children}</PublicShell>
       </body>
     </html>
   );

@@ -2,9 +2,11 @@
 
 import { motion, useInView } from "motion/react";
 import { useRef, useEffect, useState } from "react";
+import Image from "next/image";
 import { FaqSection } from "@/components/FaqSection";
 import { ServicesSection } from "@/components/ServicesSection";
 import { ContactSection } from "@/components/ContactSection";
+import { supabase, type LawyerProfile } from "@/lib/supabase";
 
 function CountUp({
   target,
@@ -76,29 +78,72 @@ const revealUp = {
 };
 
 export default function Home() {
+  const [profile, setProfile] = useState<LawyerProfile | null>(null);
+
+  useEffect(() => {
+    supabase.from("lawyer_profile").select("*").single().then(({ data }) => {
+      if (data) setProfile(data);
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-soft-bone text-deep-charcoal">
       {/* Hero — mobile stacked, desktop split */}
       <section className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-5 py-16 sm:px-6 sm:py-20 lg:min-h-[82vh] lg:grid-cols-2 lg:gap-24 lg:px-12 lg:py-28">
-        <motion.div
-          className="flex flex-col justify-center"
-          {...revealUp}
-        >
+        <motion.div className="flex flex-col justify-center" {...revealUp}>
           <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-muted-gold/90">
             Legal Excellence
           </p>
-          <h1 className="mt-3 font-serif text-3xl font-bold leading-[1.06] tracking-tight text-deep-charcoal sm:text-4xl md:text-5xl lg:text-7xl">
-            Justice in Detail.
-            <br />
-            <span className="text-muted-gold">Results in Focus.</span>
-          </h1>
+
+          {profile?.name ? (
+            <>
+              <h1 className="mt-3 font-serif text-3xl font-bold leading-[1.06] tracking-tight text-deep-charcoal sm:text-4xl md:text-5xl lg:text-6xl">
+                {profile.name}
+              </h1>
+              {profile.title && (
+                <p className="mt-2 font-sans text-sm font-medium tracking-wide text-muted-gold/80 sm:text-base">
+                  {profile.title}
+                </p>
+              )}
+            </>
+          ) : (
+            <h1 className="mt-3 font-serif text-3xl font-bold leading-[1.06] tracking-tight text-deep-charcoal sm:text-4xl md:text-5xl lg:text-7xl">
+              Justice in Detail.
+              <br />
+              <span className="text-muted-gold">Results in Focus.</span>
+            </h1>
+          )}
+
           <div className="mt-6 flex items-center gap-4" aria-hidden>
             <div className="h-px w-12 bg-muted-gold/70" />
             <div className="h-px w-8 bg-muted-gold/40" />
           </div>
+
           <p className="mt-4 max-w-lg font-sans text-base leading-[1.7] text-deep-charcoal/70 sm:text-lg">
-            Precision advocacy and strategic counsel for discerning clients.
+            {profile?.bio ?? "Precision advocacy and strategic counsel for discerning clients."}
           </p>
+
+          {/* Credentials chips */}
+          {(profile?.education || profile?.years_experience || profile?.bar_number) && (
+            <div className="mt-5 flex flex-wrap gap-2">
+              {profile.years_experience && (
+                <span className="rounded-full border border-deep-charcoal/[0.1] bg-deep-charcoal/[0.04] px-3 py-1 font-sans text-xs text-deep-charcoal/60">
+                  {profile.years_experience}+ years experience
+                </span>
+              )}
+              {profile.education && (
+                <span className="rounded-full border border-deep-charcoal/[0.1] bg-deep-charcoal/[0.04] px-3 py-1 font-sans text-xs text-deep-charcoal/60">
+                  {profile.education}
+                </span>
+              )}
+              {profile.bar_number && (
+                <span className="rounded-full border border-deep-charcoal/[0.1] bg-deep-charcoal/[0.04] px-3 py-1 font-sans text-xs text-deep-charcoal/60">
+                  Bar {profile.bar_number}
+                </span>
+              )}
+            </div>
+          )}
+
           <a
             href="#contact"
             className="mt-8 inline-flex w-full items-center justify-center rounded-md bg-deep-charcoal px-8 py-4 font-sans text-sm font-medium tracking-wide text-soft-bone shadow-premium transition-all hover:bg-deep-charcoal/90 hover:shadow-premium-lg focus:outline-none focus:ring-2 focus:ring-muted-gold/40 focus:ring-offset-2 sm:w-fit"
@@ -107,7 +152,7 @@ export default function Home() {
           </a>
         </motion.div>
 
-        {/* Portrait image — hidden on mobile, visible on desktop */}
+        {/* Portrait — desktop only */}
         <motion.div
           className="relative hidden items-center justify-end lg:flex"
           initial={{ opacity: 0, y: 24 }}
@@ -115,13 +160,32 @@ export default function Home() {
           viewport={{ once: true, margin: "-60px" }}
           transition={{ duration: 0.5, delay: 0.1, ease: [0.22, 1, 0.36, 1] as const }}
         >
-          <div
-            className="aspect-[3/4] w-full max-w-md rounded-2xl border border-deep-charcoal/[0.08] bg-deep-charcoal/[0.04] shadow-premium flex items-center justify-center"
-            aria-hidden
-          >
-            <span className="font-serif text-sm uppercase tracking-[0.2em] text-deep-charcoal/35">
-              Professional portrait
-            </span>
+          <div className="relative aspect-[3/4] w-full max-w-md overflow-hidden rounded-2xl border border-deep-charcoal/[0.08] bg-deep-charcoal/[0.04] shadow-premium">
+            {profile?.image_url ? (
+              <Image
+                src={profile.image_url}
+                alt={profile.name ?? "Lawyer portrait"}
+                fill
+                className="object-cover object-top"
+                priority
+                unoptimized
+              />
+            ) : (
+              <div className="flex size-full items-center justify-center">
+                <span className="font-serif text-sm uppercase tracking-[0.2em] text-deep-charcoal/35">
+                  Professional portrait
+                </span>
+              </div>
+            )}
+            {/* Name card overlay */}
+            {profile?.name && (
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-deep-charcoal/80 to-transparent px-6 pb-6 pt-12">
+                <p className="font-serif text-lg font-semibold text-soft-bone">{profile.name}</p>
+                {profile.title && (
+                  <p className="mt-0.5 font-sans text-xs text-soft-bone/65">{profile.title}</p>
+                )}
+              </div>
+            )}
           </div>
         </motion.div>
       </section>

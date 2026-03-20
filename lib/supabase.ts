@@ -20,6 +20,17 @@ export type Service = {
   order: number;
 };
 
+export type LawyerProfile = {
+  id: number;
+  name: string;
+  title: string | null;
+  bio: string | null;
+  image_url: string | null;
+  bar_number: string | null;
+  years_experience: number | null;
+  education: string | null;
+};
+
 export type ContactInfo = {
   id: number;
   phone: string;

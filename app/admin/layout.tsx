@@ -6,9 +6,10 @@ import Link from "next/link";
 import { supabase } from "@/lib/supabase";
 
 const NAV = [
-  { href: "/admin/contact",  label: "Contact Info", icon: "📞" },
-  { href: "/admin/faqs",     label: "FAQs",         icon: "❓" },
-  { href: "/admin/services", label: "Services",     icon: "⚖️" },
+  { href: "/admin/profile",  label: "Lawyer Profile", icon: "👤" },
+  { href: "/admin/contact",  label: "Contact Info",   icon: "📞" },
+  { href: "/admin/faqs",     label: "FAQs",           icon: "❓" },
+  { href: "/admin/services", label: "Services",       icon: "⚖️" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
@@ -16,7 +17,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   const pathname = usePathname();
   const [checking, setChecking] = useState(true);
 
+  const isLoginPage = pathname === "/admin/login";
+
   useEffect(() => {
+    // Login page manages its own auth — don't interfere
+    if (isLoginPage) {
+      setChecking(false);
+      return;
+    }
+
     supabase.auth.getSession().then(({ data }) => {
       if (!data.session) {
         router.replace("/admin/login");
@@ -30,12 +39,15 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     });
 
     return () => subscription.unsubscribe();
-  }, [router]);
+  }, [router, isLoginPage]);
 
   async function handleSignOut() {
     await supabase.auth.signOut();
     router.replace("/admin/login");
   }
+
+  // Render login page without the dashboard shell
+  if (isLoginPage) return <>{children}</>;
 
   if (checking) {
     return (
