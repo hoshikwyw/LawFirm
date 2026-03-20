@@ -3,6 +3,7 @@
 import { motion, useInView } from "motion/react";
 import { useRef, useEffect, useState } from "react";
 import { ContactForm } from "@/components/ContactForm";
+import { FaqSection } from "@/components/FaqSection";
 
 function CountUp({
   target,
@@ -211,6 +212,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* FAQ — Supabase-powered accordion */}
+      <FaqSection />
 
       {/* Contact — form with legal disclaimer */}
       <section id="contact" className="border-t border-deep-charcoal/[0.06] bg-soft-bone py-16 sm:py-20 lg:py-32">
