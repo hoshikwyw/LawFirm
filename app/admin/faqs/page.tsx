@@ -143,7 +143,7 @@ export default function AdminFaqs() {
           faqs.map((faq) => (
             <div
               key={faq.id}
-              className="flex items-start justify-between gap-4 rounded-2xl border border-deep-charcoal/[0.08] bg-white p-5"
+              className="flex flex-col gap-3 rounded-2xl border border-deep-charcoal/[0.08] bg-white p-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:p-5"
             >
               <div className="min-w-0 flex-1">
                 <p className="font-sans text-sm font-semibold text-deep-charcoal">{faq.question}</p>
@@ -152,7 +152,7 @@ export default function AdminFaqs() {
                 </p>
                 <p className="mt-1.5 font-sans text-[10px] text-deep-charcoal/35">Order: {faq.order}</p>
               </div>
-              <div className="flex shrink-0 gap-2">
+              <div className="flex shrink-0 gap-2 sm:flex-col sm:items-end">
                 <button
                   onClick={() => startEdit(faq)}
                   className="rounded-lg border border-deep-charcoal/[0.1] px-3 py-1.5 font-sans text-xs font-medium text-deep-charcoal/65 transition hover:bg-deep-charcoal/[0.04]"

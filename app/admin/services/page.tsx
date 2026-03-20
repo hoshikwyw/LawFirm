@@ -77,7 +77,7 @@ export default function AdminServices() {
           {editing ? "Edit Service" : "Add New Service"}
         </h2>
         <form onSubmit={handleSave} className="space-y-4">
-          <div className="grid grid-cols-[80px_1fr] gap-4">
+          <div className="grid grid-cols-[64px_1fr] gap-3 sm:grid-cols-[80px_1fr] sm:gap-4">
             <div>
               <label className="mb-1.5 block font-sans text-xs font-medium text-deep-charcoal/65">Icon</label>
               <input
@@ -159,7 +159,7 @@ export default function AdminServices() {
           services.map((service) => (
             <div
               key={service.id}
-              className="flex items-start justify-between gap-4 rounded-2xl border border-deep-charcoal/[0.08] bg-white p-5"
+              className="flex flex-col gap-3 rounded-2xl border border-deep-charcoal/[0.08] bg-white p-4 sm:flex-row sm:items-start sm:justify-between sm:gap-4 sm:p-5"
             >
               <div className="flex min-w-0 flex-1 items-start gap-3">
                 <span className="mt-0.5 text-xl">{service.icon}</span>
@@ -171,7 +171,7 @@ export default function AdminServices() {
                   <p className="mt-1.5 font-sans text-[10px] text-deep-charcoal/35">Order: {service.order}</p>
                 </div>
               </div>
-              <div className="flex shrink-0 gap-2">
+              <div className="flex shrink-0 gap-2 sm:flex-col sm:items-end">
                 <button
                   onClick={() => startEdit(service)}
                   className="rounded-lg border border-deep-charcoal/[0.1] px-3 py-1.5 font-sans text-xs font-medium text-deep-charcoal/65 transition hover:bg-deep-charcoal/[0.04]"
