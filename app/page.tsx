@@ -1,7 +1,44 @@
 "use client";
 
-import { motion } from "motion/react";
+import { motion, useInView } from "motion/react";
+import { useRef, useEffect, useState } from "react";
 import { ContactForm } from "@/components/ContactForm";
+
+function CountUp({
+  target,
+  prefix = "",
+  suffix = "",
+  duration = 2000,
+}: {
+  target: number;
+  prefix?: string;
+  suffix?: string;
+  duration?: number;
+}) {
+  const ref = useRef<HTMLSpanElement>(null);
+  const inView = useInView(ref, { once: true, margin: "-60px" });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (!inView) return;
+    let startTime: number | null = null;
+    const step = (timestamp: number) => {
+      if (!startTime) startTime = timestamp;
+      const progress = Math.min((timestamp - startTime) / duration, 1);
+      // Ease out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
+      setCount(Math.floor(eased * target));
+      if (progress < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }, [inView, target, duration]);
+
+  return (
+    <span ref={ref}>
+      {prefix}{count}{suffix}
+    </span>
+  );
+}
 
 const PRACTICE_AREAS = [
   {
@@ -23,9 +60,9 @@ const PRACTICE_AREAS = [
 ];
 
 const CASE_RESULTS = [
-  { value: "$47M", label: "Verdict secured in high-stakes commercial litigation" },
-  { value: "98%", label: "Client satisfaction and case outcome success rate" },
-  { value: "150+", label: "Years of combined experience across the firm" },
+  { prefix: "$", target: 47, suffix: "M", label: "Verdict secured in high-stakes commercial litigation" },
+  { prefix: "",  target: 98, suffix: "%", label: "Client satisfaction and case outcome success rate" },
+  { prefix: "",  target: 150, suffix: "+", label: "Years of combined experience across the firm" },
 ];
 
 const CONTACT_INFO = {
@@ -158,11 +195,13 @@ export default function Home() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as const }}
               >
-                <span
-                  className="font-serif text-5xl font-bold leading-none tracking-tight text-muted-gold sm:text-6xl md:text-7xl lg:text-8xl"
-                  aria-hidden
-                >
-                  {result.value}
+                <span className="font-serif text-5xl font-bold leading-none tracking-tight text-muted-gold sm:text-6xl md:text-7xl lg:text-8xl">
+                  <CountUp
+                    target={result.target}
+                    prefix={result.prefix}
+                    suffix={result.suffix}
+                    duration={1800}
+                  />
                 </span>
                 <p className="mt-4 font-sans text-sm leading-[1.65] text-soft-bone/85 sm:text-base">
                   {result.label}
