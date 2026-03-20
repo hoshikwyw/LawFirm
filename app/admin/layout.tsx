@@ -10,6 +10,7 @@ const NAV = [
   { href: "/admin/contact",  label: "Contact Info",   icon: "📞" },
   { href: "/admin/faqs",     label: "FAQs",           icon: "❓" },
   { href: "/admin/services", label: "Services",       icon: "⚖️" },
+  { href: "/admin/accounts", label: "Admin Accounts", icon: "🔐" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
