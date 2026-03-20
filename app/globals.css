@@ -55,6 +55,20 @@ body {
   letter-spacing: 0.01em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* Prevent horizontal overflow on mobile */
+  overflow-x: hidden;
+}
+
+html {
+  scroll-behavior: smooth;
+  /* Prevent text size adjustment on orientation change */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* Ensure touch targets are comfortable on mobile */
+a, button {
+  touch-action: manipulation;
 }
 
 h1, h2, h3, h4, h5, h6 {

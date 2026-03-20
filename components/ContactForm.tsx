@@ -19,7 +19,7 @@ export function ContactForm() {
   const [disclaimerChecked, setDisclaimerChecked] = useState(false);
 
   return (
-    <form action={formAction} className="grid w-full max-w-md gap-6">
+    <form action={formAction} className="grid w-full gap-6">
       <div className="grid gap-2">
         <Label htmlFor="name">Name</Label>
         <Input

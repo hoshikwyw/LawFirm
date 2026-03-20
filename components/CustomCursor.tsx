@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { motion } from "motion/react";
 
 const CLICKABLE_SELECTOR =
@@ -11,10 +11,18 @@ export function CustomCursor() {
   const [isOverClickable, setIsOverClickable] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
 
+  // Detect touch device once on mount using a ref to avoid deps array size changes
+  const isTouchDevice = useRef(false);
+
   useEffect(() => {
+    isTouchDevice.current = window.matchMedia("(pointer: coarse)").matches;
+    if (isTouchDevice.current) return;
+
+    document.body.style.cursor = "none";
+
     const handleMouseMove = (e: MouseEvent) => {
       setPosition({ x: e.clientX, y: e.clientY });
-      if (!isVisible) setIsVisible(true);
+      setIsVisible(true);
     };
 
     const handleMouseOver = (e: MouseEvent) => {
@@ -37,21 +45,14 @@ export function CustomCursor() {
     document.addEventListener("mouseout", handleMouseOut);
 
     return () => {
+      document.body.style.cursor = "";
       document.removeEventListener("mousemove", handleMouseMove);
       document.removeEventListener("mouseover", handleMouseOver);
       document.removeEventListener("mouseout", handleMouseOut);
     };
-  }, [isVisible]);
-
-  // Hide default cursor when custom cursor is active
-  useEffect(() => {
-    document.body.style.cursor = "none";
-    return () => {
-      document.body.style.cursor = "";
-    };
   }, []);
 
-  if (!isVisible) return null;
+  if (!isVisible || isTouchDevice.current) return null;
 
   return (
     <div

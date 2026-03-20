@@ -49,8 +49,8 @@ const revealUp = {
 export default function Home() {
   return (
     <div className="min-h-screen bg-soft-bone text-deep-charcoal">
-      {/* Hero — split layout */}
-      <section className="relative mx-auto grid min-h-[82vh] max-w-7xl grid-cols-1 items-center gap-12 px-6 py-28 lg:grid-cols-2 lg:gap-24 lg:px-12">
+      {/* Hero — mobile stacked, desktop split */}
+      <section className="relative mx-auto grid max-w-7xl grid-cols-1 items-center gap-8 px-5 py-16 sm:px-6 sm:py-20 lg:min-h-[82vh] lg:grid-cols-2 lg:gap-24 lg:px-12 lg:py-28">
         <motion.div
           className="flex flex-col justify-center"
           {...revealUp}
@@ -58,27 +58,29 @@ export default function Home() {
           <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-muted-gold/90">
             Legal Excellence
           </p>
-          <h1 className="mt-4 font-serif text-4xl font-bold leading-[1.06] tracking-tight text-deep-charcoal sm:text-5xl md:text-6xl lg:text-7xl">
+          <h1 className="mt-3 font-serif text-3xl font-bold leading-[1.06] tracking-tight text-deep-charcoal sm:text-4xl md:text-5xl lg:text-7xl">
             Justice in Detail.
             <br />
             <span className="text-muted-gold">Results in Focus.</span>
           </h1>
-          <div className="mt-8 flex items-center gap-4" aria-hidden>
+          <div className="mt-6 flex items-center gap-4" aria-hidden>
             <div className="h-px w-12 bg-muted-gold/70" />
             <div className="h-px w-8 bg-muted-gold/40" />
           </div>
-          <p className="mt-6 max-w-lg font-sans text-lg leading-[1.7] text-deep-charcoal/70">
+          <p className="mt-4 max-w-lg font-sans text-base leading-[1.7] text-deep-charcoal/70 sm:text-lg">
             Precision advocacy and strategic counsel for discerning clients.
           </p>
           <a
             href="#contact"
-            className="mt-10 inline-flex w-fit items-center justify-center rounded-md bg-deep-charcoal px-8 py-4 font-sans text-sm font-medium tracking-wide text-soft-bone shadow-premium transition-all hover:bg-deep-charcoal/90 hover:shadow-premium-lg focus:outline-none focus:ring-2 focus:ring-muted-gold/40 focus:ring-offset-2"
+            className="mt-8 inline-flex w-full items-center justify-center rounded-md bg-deep-charcoal px-8 py-4 font-sans text-sm font-medium tracking-wide text-soft-bone shadow-premium transition-all hover:bg-deep-charcoal/90 hover:shadow-premium-lg focus:outline-none focus:ring-2 focus:ring-muted-gold/40 focus:ring-offset-2 sm:w-fit"
           >
             Book a Consultation
           </a>
         </motion.div>
+
+        {/* Portrait image — hidden on mobile, visible on desktop */}
         <motion.div
-          className="relative flex items-center justify-center lg:justify-end"
+          className="relative hidden items-center justify-end lg:flex"
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-60px" }}
@@ -96,20 +98,20 @@ export default function Home() {
       </section>
 
       {/* Practice Areas — 4 cards, hover lift */}
-      <section id="practice-areas" className="border-t border-deep-charcoal/[0.06] bg-soft-bone py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12">
+      <section id="practice-areas" className="border-t border-deep-charcoal/[0.06] bg-soft-bone py-16 sm:py-20 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-12">
           <motion.div {...revealUp}>
             <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-muted-gold/80">
               Expertise
             </p>
-            <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-deep-charcoal md:text-4xl">
+            <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-deep-charcoal sm:text-3xl md:text-4xl">
               Practice Areas
             </h2>
-            <p className="mt-4 max-w-xl font-sans leading-[1.7] text-deep-charcoal/65">
+            <p className="mt-3 max-w-xl font-sans text-sm leading-[1.7] text-deep-charcoal/65 sm:text-base">
               Focused expertise across the disciplines that matter most to our clients.
             </p>
           </motion.div>
-          <div className="mt-16 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:mt-16 lg:grid-cols-4">
             {PRACTICE_AREAS.map((area, i) => (
               <motion.article
                 key={area.title}
@@ -118,12 +120,12 @@ export default function Home() {
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.4, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] as const }}
                 whileHover={{ y: -8 }}
-                className="rounded-2xl border border-deep-charcoal/[0.08] bg-soft-bone p-7 shadow-premium transition-all hover:shadow-premium-lg hover:border-muted-gold/25"
+                className="rounded-2xl border border-deep-charcoal/[0.08] bg-soft-bone p-6 shadow-premium transition-all hover:shadow-premium-lg hover:border-muted-gold/25 lg:p-7"
               >
-                <h3 className="font-serif text-xl font-semibold tracking-tight text-deep-charcoal">
+                <h3 className="font-serif text-lg font-semibold tracking-tight text-deep-charcoal sm:text-xl">
                   {area.title}
                 </h3>
-                <p className="mt-4 font-sans text-sm leading-[1.65] text-deep-charcoal/65">
+                <p className="mt-3 font-sans text-sm leading-[1.65] text-deep-charcoal/65">
                   {area.description}
                 </p>
               </motion.article>
@@ -133,20 +135,20 @@ export default function Home() {
       </section>
 
       {/* Authority — 3 case results, oversized numbers */}
-      <section className="border-t border-deep-charcoal/10 bg-deep-charcoal py-32 text-soft-bone">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12">
+      <section className="border-t border-deep-charcoal/10 bg-deep-charcoal py-16 text-soft-bone sm:py-20 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-12">
           <motion.div {...revealUp}>
             <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-muted-gold/70">
               Results
             </p>
-            <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-soft-bone md:text-4xl">
+            <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-soft-bone sm:text-3xl md:text-4xl">
               Authority in Numbers
             </h2>
-            <p className="mt-4 max-w-xl font-sans leading-[1.7] text-soft-bone/75">
+            <p className="mt-3 max-w-xl font-sans text-sm leading-[1.7] text-soft-bone/75 sm:text-base">
               Outcomes that reflect our commitment to excellence.
             </p>
           </motion.div>
-          <div className="mt-20 grid grid-cols-1 gap-16 md:grid-cols-3">
+          <div className="mt-12 grid grid-cols-1 gap-10 sm:gap-12 md:mt-20 md:grid-cols-3 md:gap-16">
             {CASE_RESULTS.map((result, i) => (
               <motion.div
                 key={i}
@@ -157,12 +159,12 @@ export default function Home() {
                 transition={{ duration: 0.5, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] as const }}
               >
                 <span
-                  className="font-serif text-6xl font-bold leading-none tracking-tight text-muted-gold sm:text-7xl md:text-8xl"
+                  className="font-serif text-5xl font-bold leading-none tracking-tight text-muted-gold sm:text-6xl md:text-7xl lg:text-8xl"
                   aria-hidden
                 >
                   {result.value}
                 </span>
-                <p className="mt-5 font-sans text-base leading-[1.65] text-soft-bone/85">
+                <p className="mt-4 font-sans text-sm leading-[1.65] text-soft-bone/85 sm:text-base">
                   {result.label}
                 </p>
               </motion.div>
@@ -172,22 +174,22 @@ export default function Home() {
       </section>
 
       {/* Contact — form with legal disclaimer */}
-      <section id="contact" className="border-t border-deep-charcoal/[0.06] bg-soft-bone py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-12">
+      <section id="contact" className="border-t border-deep-charcoal/[0.06] bg-soft-bone py-16 sm:py-20 lg:py-32">
+        <div className="mx-auto max-w-7xl px-5 sm:px-6 lg:px-12">
           <motion.div {...revealUp}>
             <p className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-muted-gold/80">
               Get in touch
             </p>
-            <h2 className="mt-2 font-serif text-3xl font-bold tracking-tight text-deep-charcoal md:text-4xl">
+            <h2 className="mt-2 font-serif text-2xl font-bold tracking-tight text-deep-charcoal sm:text-3xl md:text-4xl">
               Contact
             </h2>
-            <p className="mt-4 max-w-xl font-sans leading-[1.7] text-deep-charcoal/65">
+            <p className="mt-3 max-w-xl font-sans text-sm leading-[1.7] text-deep-charcoal/65 sm:text-base">
               Send us a message about your legal matter, or use the chat button to message us on Messenger.
             </p>
           </motion.div>
-          <div className="mt-16 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10 lg:gap-12">
+          <div className="mt-10 grid grid-cols-1 gap-6 md:mt-16 md:grid-cols-2 md:gap-10 lg:gap-12">
             <motion.div
-              className="rounded-2xl border border-deep-charcoal/[0.08] bg-soft-bone p-8 shadow-premium md:p-10"
+              className="rounded-2xl border border-deep-charcoal/[0.08] bg-soft-bone p-6 shadow-premium sm:p-8 md:p-10"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
@@ -196,7 +198,7 @@ export default function Home() {
               <ContactForm />
             </motion.div>
             <motion.aside
-              className="flex flex-col gap-8 rounded-2xl border border-deep-charcoal/[0.08] bg-deep-charcoal/[0.04] p-8 shadow-premium md:p-10"
+              className="flex flex-col gap-6 rounded-2xl border border-deep-charcoal/[0.08] bg-deep-charcoal/[0.04] p-6 shadow-premium sm:p-8 md:gap-8 md:p-10"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-40px" }}
@@ -205,27 +207,27 @@ export default function Home() {
               <h3 className="font-serif text-xl font-semibold tracking-tight text-deep-charcoal">
                 Reach us directly
               </h3>
-              <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-4 sm:gap-6">
                 <a
                   href={`tel:${CONTACT_INFO.phone.replace(/\s/g, "")}`}
                   className="flex items-center gap-4 font-sans text-deep-charcoal/85 transition-colors hover:text-muted-gold"
                 >
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-muted-gold/15 text-muted-gold">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted-gold/15 text-muted-gold">
                     <PhoneIcon />
                   </span>
-                  <span>{CONTACT_INFO.phone}</span>
+                  <span className="text-sm sm:text-base">{CONTACT_INFO.phone}</span>
                 </a>
                 <a
                   href={`mailto:${CONTACT_INFO.email}`}
                   className="flex items-center gap-4 font-sans text-deep-charcoal/85 transition-colors hover:text-muted-gold"
                 >
-                  <span className="flex size-11 items-center justify-center rounded-xl bg-muted-gold/15 text-muted-gold">
+                  <span className="flex size-11 shrink-0 items-center justify-center rounded-xl bg-muted-gold/15 text-muted-gold">
                     <EmailIcon />
                   </span>
-                  <span className="break-all">{CONTACT_INFO.email}</span>
+                  <span className="break-all text-sm sm:text-base">{CONTACT_INFO.email}</span>
                 </a>
               </div>
-              <div className="border-t border-deep-charcoal/[0.08] pt-8">
+              <div className="border-t border-deep-charcoal/[0.08] pt-6 md:pt-8">
                 <p className="mb-4 font-sans text-sm font-medium tracking-wide text-deep-charcoal/75">
                   Follow us
                 </p>

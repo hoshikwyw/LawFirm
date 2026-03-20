@@ -1,11 +1,48 @@
 "use server";
 
 const RESEND_API_URL = "https://api.resend.com/emails";
+const VIBER_API_URL = "https://chatapi.viber.com/pa/send_message";
 const FROM_EMAIL = process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev";
 
 export type SendEmailState =
   | { success: true; message: string }
   | { success: false; message: string };
+
+async function sendViberMessage(name: string, email: string, inquiry: string): Promise<void> {
+  const token = process.env.VIBER_BOT_TOKEN;
+  const receiverId = process.env.VIBER_RECEIVER_ID;
+
+  if (!token || !receiverId) return;
+
+  const text =
+    `📋 New Legal Inquiry\n\n` +
+    `👤 Name: ${name}\n` +
+    `📧 Email: ${email}\n\n` +
+    `💬 Message:\n${inquiry}`;
+
+  try {
+    const res = await fetch(VIBER_API_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Viber-Auth-Token": token,
+      },
+      body: JSON.stringify({
+        receiver: receiverId,
+        min_api_version: 1,
+        type: "text",
+        text,
+      }),
+    });
+
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.status !== 0) {
+      console.error("Viber API error:", data);
+    }
+  } catch (err) {
+    console.error("Viber send error:", err);
+  }
+}
 
 function escapeHtml(s: string): string {
   return s
@@ -95,6 +132,9 @@ export async function sendEmail(
           : "Failed to send message. Please try again.";
       return { success: false, message };
     }
+
+    // Fire-and-forget Viber notification — does not affect form outcome
+    void sendViberMessage(name, email, legalInquiry);
 
     return {
       success: true,
